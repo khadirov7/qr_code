@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:qr_code/screens/show_screen.dart';
+import 'package:share_plus/share_plus.dart';
 import '../data/model/qrcode_model.dart';
 import '../utils/app_colors.dart';
 
@@ -12,7 +13,6 @@ class ResultScreen extends StatefulWidget {
   @override
   State<ResultScreen> createState() => _ResultScreenState();
 }
-final GlobalKey _globalKey = GlobalKey();
 class _ResultScreenState extends State<ResultScreen> {
   @override
   Widget build(BuildContext context) {
@@ -146,7 +146,16 @@ class _ResultScreenState extends State<ResultScreen> {
                             horizontal: 12.w, vertical: 12.h),
                         backgroundColor: AppColors.c_FDB623,
                       ),
-                      onPressed: () {
+                      onPressed: () async{
+    final uri=widget.scannerModel.qrCode;
+    final box = context.findRenderObject() as RenderBox?;
+
+    if (uri.isNotEmpty) {
+      await Share.shareUri(
+        Uri.parse(uri),
+        sharePositionOrigin: box!.localToGlobal(Offset.zero) & box.size,
+      );
+    }
                       },
                       child: Icon(
                         Icons.share,

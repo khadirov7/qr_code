@@ -102,7 +102,7 @@ class _TabBox1State extends State<TabBox1> {
                           content: Text(barcode.code.toString()),
                         ),
                       );
-                      context.read<ScannerBloc>().add(
+                      context.read<QrCodeBloc>().add(
                             AddQrCodeEvent(
                               scannerModel: QrCodeModel(
                                 name: "Data",

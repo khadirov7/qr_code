@@ -28,7 +28,7 @@ class _MyAppState extends State<MyApp> {
         return MultiBlocProvider(
           providers: [
             BlocProvider(
-              create: (_) => ScannerBloc()..add(LoadQrCodeEvent()),
+              create: (_) => QrCodeBloc()..add(LoadQrCodeEvent()),
             ),
           ],
           child: MaterialApp(

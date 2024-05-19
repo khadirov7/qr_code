@@ -24,7 +24,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.c_333333,
-      body: BlocBuilder<ScannerBloc, QrCodeState>(
+      body: BlocBuilder<QrCodeBloc, QrCodeState>(
         builder: (context, state) {
           if (state.status == FormStatus.loading) {
             return const Center(
@@ -36,11 +36,11 @@ class _HistoryScreenState extends State<HistoryScreen> {
               child: Text(state.statusText),
             );
           }
-          final GlobalKey _globalKey = GlobalKey();
+          final GlobalKey globalKey = GlobalKey();
           return Column(
             children: [
               Padding(
-                padding: const EdgeInsets.only(left: 46, right: 31, top: 41),
+                padding: EdgeInsets.only(left: 25.w, right: 14.w, top: 41.h),
                 child: Row(
                   children: [
                     Text(
@@ -48,7 +48,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                       style: TextStyle(
                         color: AppColors.c_D9D9D9,
                         fontSize: 27.sp,
-                        fontWeight: FontWeight.w400,
+                        fontWeight: FontWeight.w700,
                       ),
                     ),
                     const Spacer(),
@@ -68,7 +68,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                   itemCount: state.products.length,
                   itemBuilder: (context, index) {
                     return Padding(
-                      padding: const EdgeInsets.all(8.0),
+                      padding:  EdgeInsets.all(8.0.w),
                       child: ListTile(
                         onTap: () {
                           Navigator.push(
@@ -78,7 +78,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                 scannerModel: QrCodeModel(
                                   name: state.products[index].name,
                                   qrCode: state.products[index].qrCode,
-                                ), globalKey: _globalKey,
+                                ), globalKey: globalKey,
                               ),
                             ),
                           );
@@ -90,12 +90,12 @@ class _HistoryScreenState extends State<HistoryScreen> {
                             backgroundColor: Colors.white,
                             data: state.products[index].qrCode,
                             version: QrVersions.auto,
-                            size: 80,
+                            size: 80.w,
                           ),
                         ),
                         trailing: IconButton(
                           onPressed: () {
-                            context.read<ScannerBloc>().add(
+                            context.read<QrCodeBloc>().add(
                                 DeleteQrCodeEvent(
                                     scannerId: state.products[index].id!));
                           },

@@ -4,8 +4,8 @@ import 'package:qr_code/bloc/qrcode_state.dart';
 import '../data/local/local_database.dart';
 import '../data/model/form_status.dart';
 
-class ScannerBloc extends Bloc<QrCodeEvent, QrCodeState> {
-  ScannerBloc()
+class QrCodeBloc extends Bloc<QrCodeEvent, QrCodeState> {
+  QrCodeBloc()
       : super(
           const QrCodeState(
             status: FormStatus.pure,

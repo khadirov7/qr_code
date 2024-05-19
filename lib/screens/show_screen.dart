@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:qr_flutter/qr_flutter.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../data/model/qrcode_model.dart';
 import '../services/widget_save_service.dart';
 import '../utils/app_colors.dart';
 
 class ShowQrCodeScreen extends StatefulWidget {
-  const ShowQrCodeScreen({super.key, required this.scannerModel, this.globalKey});
+  const ShowQrCodeScreen(
+      {super.key, required this.scannerModel, this.globalKey});
+
   final GlobalKey? globalKey;
   final QrCodeModel scannerModel;
 
@@ -16,16 +19,16 @@ class ShowQrCodeScreen extends StatefulWidget {
 }
 
 class _ShowQrCodeScreenState extends State<ShowQrCodeScreen> {
+  final GlobalKey globalKey = GlobalKey();
 
- final GlobalKey globalKey = GlobalKey();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.c_333333.withOpacity(0.7),
       body: Column(
         children: [
-          const SizedBox(
-            height: 40,
+           SizedBox(
+            height: 40.h,
           ),
           Row(
             children: [
@@ -46,8 +49,8 @@ class _ShowQrCodeScreenState extends State<ShowQrCodeScreen> {
                   color: AppColors.c_FDB623,
                 ),
               ),
-              const SizedBox(
-                width: 25,
+               SizedBox(
+                width: 25.w,
               ),
               Text(
                 "QR Code",
@@ -59,8 +62,8 @@ class _ShowQrCodeScreenState extends State<ShowQrCodeScreen> {
               ),
             ],
           ),
-          const SizedBox(
-            height: 33,
+           SizedBox(
+            height: 33.h,
           ),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 24.w),
@@ -116,12 +119,17 @@ class _ShowQrCodeScreenState extends State<ShowQrCodeScreen> {
                           horizontal: 18.w, vertical: 18.h),
                       backgroundColor: AppColors.c_FDB623,
                     ),
-                    onPressed: () {
-                      WidgetSaverService.openWidgetAsImage(
-                        context: context,
-                        widgetKey: globalKey,
-                        fileId: widget.scannerModel.qrCode,
-                      );
+                    onPressed: () async {
+                      final uri = widget.scannerModel.qrCode;
+                      final box = context.findRenderObject() as RenderBox?;
+
+                      if (uri.isNotEmpty) {
+                        await Share.shareUri(
+                          Uri.parse(uri),
+                          sharePositionOrigin:
+                              box!.localToGlobal(Offset.zero) & box.size,
+                        );
+                      }
                     },
                     child: Icon(
                       Icons.share,
